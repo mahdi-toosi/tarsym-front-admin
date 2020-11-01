@@ -34,7 +34,7 @@ export default {
             });
     },
     addDataToAxiosAndLocalStorage(store, data) {
-        const day = 60 * 60 * 1000 * 24; //* 24 hours
+        const day = 60 * 60 * 1000 * 4; //* 4 hours
         data.expire = new Date().getTime() + day;
         localStorage.setItem("sjufNEbjDmE", JSON.stringify(data)); //* sjufNEbjDmE = userData
         localStorage.setItem("kemskDJobjgR", data.accessToken); //* kemskDJobjgR = access key

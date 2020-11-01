@@ -40,6 +40,23 @@ export default new Vuex.Store({
             }
             Vue.toasted.error(msg);
         },
+        decode_the_docs(store, { docs, deleteRoot }) {
+            const Docs = docs.data || docs;
+            const newData = [];
+            Docs.forEach((doc) => {
+                const junk = JSON.parse(doc.junk);
+                delete doc.junk;
+                const decoded_Doc = {
+                    ...doc,
+                    ...junk,
+                };
+                decoded_Doc.date = decoded_Doc.date - 2000000;
+                if (deleteRoot && decoded_Doc.root) delete decoded_Doc.root;
+                // * populate taxonomies
+                newData.push(decoded_Doc);
+            });
+            return newData;
+        },
     },
     getters: {
         isAuthenticated: (state) => state.user.username,

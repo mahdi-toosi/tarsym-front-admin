@@ -7,11 +7,13 @@ function beforeEach() {
             // * scape authenticate
             next();
             return;
-        } else if (checkForAuth(to.meta.minimumRole)) {
+        } else if (checkForAuth(48)) {
+            // minimum role = 48
             // * check authenticate
             next();
             return;
-        } else if (set_user_if_exist(to.meta.minimumRole)) {
+        } else if (set_user_if_exist(48)) {
+            // minimum role = 48
             next();
             return;
         } else store.commit("LOGOUT");

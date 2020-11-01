@@ -9,9 +9,21 @@ const routes = [
         path: "/",
         name: "HomePage",
         component: () => import("@/views/Home.vue"),
-        meta: {
-            minimumRole: 48,
-        },
+    },
+    {
+        path: "/adminDocs",
+        name: "adminDocsPage",
+        component: () => import("@/views/Docs/adminDocs.vue"),
+    },
+    {
+        path: "/usersDocs",
+        name: "usersDocsPage",
+        component: () => import("@/views/Docs/usersDocs.vue"),
+    },
+    {
+        path: "/users",
+        name: "usersPage",
+        component: () => import("@/views/Users.vue"),
     },
     {
         path: "/login",
