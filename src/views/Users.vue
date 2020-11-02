@@ -112,8 +112,9 @@ export default {
     },
     methods: {
         async getUsers() {
+            const options = { params: { $limit: 20 } };
             const users = await this.$axios
-                .get("/users")
+                .get("/users", options)
                 .then(res => {
                     console.log({ res });
                     return res.data;
