@@ -27,7 +27,7 @@
 
 <script>
 export default {
-    name: "navigation"
+    name: "navigation",
 };
 </script>
 
@@ -36,6 +36,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 999;
+    direction: rtl;
 }
 ul {
     list-style: none;

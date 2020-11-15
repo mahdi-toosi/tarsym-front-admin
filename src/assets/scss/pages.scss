@@ -2,8 +2,11 @@
     max-width: 90vw;
     margin: 0 auto;
     margin-top: 2rem;
+    direction: rtl;
+
     table {
         margin: 0 auto;
+        margin-bottom: 15px;
         background: #ffffffc7;
         border-radius: 5px;
         text-align: center;
@@ -77,5 +80,9 @@
                 }
             }
         }
+    }
+    .loadMore {
+        margin-top: 0px;
+        padding: 8px 34px;
     }
 }

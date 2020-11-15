@@ -70,5 +70,12 @@ button {
         letter-spacing: 0 !important;
     }
 }
+
+#app {
+    max-height: 100vh;
+    overflow: auto;
+    direction: ltr;
+}
+
 @import "libs/helpers.scss";
 @import "pages.scss";

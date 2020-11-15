@@ -3,7 +3,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>{{ this.docs.total }} #</th>
                     <th>عنوان داکیومنت</th>
                     <th>دسته بندی</th>
                     <th>وضعیت</th>
@@ -56,25 +56,27 @@
             </tbody>
         </table>
 
-        <!-- <button class="btn btn-blue" dir="ltr">
+        <button
+            @click="loadmore()"
+            class="btn btn-blue loadMore"
+            dir="ltr"
+            v-if="docs.total > docs.data.length"
+        >
             Load more ...
-        </button> -->
+        </button>
     </div>
 </template>
 
 <script>
+import mixins from "./mixins";
 export default {
     name: "usersDocs",
+    mixins: [mixins],
     data() {
-        return { docs: [] };
-    },
-    filters: {
-        formatDate(dateString) {
-            return new Date(dateString).toLocaleDateString("fa-IR");
-        },
+        return {};
     },
     methods: {
-        async getDocs() {
+        async getDocs($limit, $skip) {
             const options = {
                 params: {
                     root: true,
@@ -89,30 +91,16 @@ export default {
                         "situation",
                     ],
                     "$sort[createdAt]": -1,
+                    $limit,
+                    $skip,
                 },
             };
-            const docs = await this.$axios
-                .get("/documents", options)
-                .then((res) => res.data)
-                .catch((error) => {
-                    this.$store.dispatch("handleAxiosError", error);
-                });
-            if (!docs) return;
-            this.docs = docs;
-        },
-        async deleteThisDoc(_id, index) {
-            const areYouSure = confirm("بابت حدف این داکیومنت مطمئنید ؟");
-            if (!areYouSure) return;
-
-            const remove_childs = confirm(
-                "در صورتی که این داکیومنت دارای زیرمجموعه باشد آنها هم حذف میشوند"
-            );
-            if (!remove_childs) return;
-
             await this.$axios
-                .delete(`/documents/${_id}`)
-                .then(() => {
-                    this.docs.data.splice(index, 1);
+                .get("/documents", options)
+                .then(({ data }) => {
+                    this.docs.data = this.docs.data.concat(data.data);
+                    this.docs.total = data.total;
+                    this.docs.skip = data.skip;
                 })
                 .catch((error) => {
                     this.$store.dispatch("handleAxiosError", error);
@@ -128,9 +116,6 @@ export default {
                     this.$store.dispatch("handleAxiosError", error);
                 });
         },
-    },
-    created() {
-        this.getDocs();
     },
 };
 </script>
