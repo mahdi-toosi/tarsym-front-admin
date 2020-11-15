@@ -27,10 +27,10 @@
     font-weight: normal;
     // src: url('/dist/fonts/eot/IRANSansWeb.eot')
     src: local("IRANSans");
-    src: url("/administrator/fonts/eot/IRANSansWeb.eot?#iefix") format("embedded-opentype"),
-        url("/administrator/fonts/woff2/IRANSansWeb.woff2") format("woff2"),
-        url("/administrator/fonts/woff/IRANSansWeb.woff") format("woff"),
-        url("/administrator/fonts/ttf/IRANSansWeb.ttf") format("truetype");
+    src: url("/administrator/fonts/iranSans/eot/IRANSansWeb.eot?#iefix") format("embedded-opentype"),
+        url("/administrator/fonts/iranSans/woff2/IRANSansWeb.woff2") format("woff2"),
+        url("/administrator/fonts/iranSans/woff/IRANSansWeb.woff") format("woff"),
+        url("/administrator/fonts/iranSans/ttf/IRANSansWeb.ttf") format("truetype");
 }
 
 body {
@@ -52,5 +52,23 @@ button {
     border: none;
 }
 
+// Toasted
+.toasted {
+    direction: rtl;
+    justify-content: unset !important;
+    i {
+        font-size: 27px;
+        margin-left: 0.5rem !important;
+        margin-right: -0.4rem !important;
+    }
+    .action {
+        margin: 5px auto 5px 7px !important;
+        color: white !important;
+        border: 1px white solid;
+        border-radius: 5px !important;
+        padding: 5px 9px !important;
+        letter-spacing: 0 !important;
+    }
+}
 @import "libs/helpers.scss";
 @import "pages.scss";

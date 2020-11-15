@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <Navigation-menu v-if="$route.name !== 'LoginPage'" />
+        <Navigation-menu v-if="displayNav" />
         <transition name="fade" mode="out-in">
             <router-view />
         </transition>
@@ -11,8 +11,14 @@ import NavigationMenu from "@/components/navigation";
 export default {
     name: "App",
     components: {
-        NavigationMenu
-    }
+        NavigationMenu,
+    },
+    computed: {
+        displayNav() {
+            const role = this.$store.state.user.role;
+            return role && role >= 48;
+        },
+    },
 };
 </script>
 <style lang="scss">

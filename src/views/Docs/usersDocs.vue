@@ -6,6 +6,7 @@
                     <th>#</th>
                     <th>عنوان داکیومنت</th>
                     <th>دسته بندی</th>
+                    <th>وضعیت</th>
                     <th>کاربر</th>
                     <th>آخرین بروزرسانی</th>
                     <th>عملیات</th>
@@ -15,18 +16,41 @@
                 <tr v-for="(doc, index) in docs.data" :key="doc._id">
                     <td>{{ index + 1 }}</td>
                     <td>{{ doc.title }}</td>
-                    <td>{{ doc.categories }}</td>
-                    <td></td>
+                    <td class="categories">
+                        <span
+                            v-for="(doc, index) in doc.categories"
+                            :key="index"
+                        >
+                            {{ doc }}
+                        </span>
+                    </td>
+                    <td>{{ doc.situation }}</td>
+                    <td>{{ doc.user.username }}</td>
                     <td>{{ doc.updatedAt | formatDate }}</td>
                     <td class="options">
                         <a
-                            :href="
-                                `https://www.dev.tarsym.ir/update/${doc._id}`
-                            "
+                            :href="`https://www.dev.tarsym.ir/read/${doc._id}`"
                             target="_blank"
-                            ><i class="far fa-edit"></i
-                        ></a>
-                        <a><i class="far fa-trash-alt"></i></a>
+                            class="read"
+                        >
+                            <i class="far fa-eye"></i>
+                        </a>
+                        <a @click="copyThisDocForAdmin(doc._id)" class="copy">
+                            <i class="far fa-copy"></i>
+                        </a>
+                        <a
+                            :href="`https://www.dev.tarsym.ir/update/${doc._id}`"
+                            target="_blank"
+                            class="update"
+                        >
+                            <i class="far fa-edit"></i>
+                        </a>
+                        <a
+                            @click="deleteThisDoc(doc._id, index)"
+                            class="delete"
+                        >
+                            <i class="far fa-trash-alt"></i>
+                        </a>
                     </td>
                 </tr>
             </tbody>
@@ -47,38 +71,67 @@ export default {
     filters: {
         formatDate(dateString) {
             return new Date(dateString).toLocaleDateString("fa-IR");
-        }
+        },
     },
     methods: {
         async getDocs() {
-            const url = "/documents";
             const options = {
                 params: {
                     root: true,
-                    $skip: 0
-                }
+                    vitrine: false,
+                    situation: ["public", "private"],
+                    $select: [
+                        "_id",
+                        "title",
+                        "categories",
+                        "updatedAt",
+                        "user",
+                        "situation",
+                    ],
+                    "$sort[createdAt]": -1,
+                },
             };
             const docs = await this.$axios
-                .get(url, options)
-                .then(res => {
-                    if (res.status == 200) return res.data;
-                })
-                .catch(error => {
+                .get("/documents", options)
+                .then((res) => res.data)
+                .catch((error) => {
                     this.$store.dispatch("handleAxiosError", error);
                 });
             if (!docs) return;
-
-            // const decoded_docs = await this.$store.dispatch("decode_the_docs", {
-            //     docs
-            // });
-            // docs.data = decoded_docs;
             this.docs = docs;
-        }
+        },
+        async deleteThisDoc(_id, index) {
+            const areYouSure = confirm("بابت حدف این داکیومنت مطمئنید ؟");
+            if (!areYouSure) return;
+
+            const remove_childs = confirm(
+                "در صورتی که این داکیومنت دارای زیرمجموعه باشد آنها هم حذف میشوند"
+            );
+            if (!remove_childs) return;
+
+            await this.$axios
+                .delete(`/documents/${_id}`)
+                .then(() => {
+                    this.docs.data.splice(index, 1);
+                })
+                .catch((error) => {
+                    this.$store.dispatch("handleAxiosError", error);
+                });
+        },
+        async copyThisDocForAdmin(_id) {
+            await this.$axios
+                .post("/administrator/copyDoc", { _id })
+                .then((res) => {
+                    console.log({ res });
+                })
+                .catch((error) => {
+                    this.$store.dispatch("handleAxiosError", error);
+                });
+        },
     },
     created() {
-        console.log("created");
         this.getDocs();
-    }
+    },
 };
 </script>
 

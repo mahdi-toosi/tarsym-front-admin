@@ -13,16 +13,20 @@ export default {
         await axios
             .post(url, data)
             .then(async (res) => {
-                // * suspension
-                if (res.data.user.role == 1) {
+                const role = res.data.user.role;
+                if (role == 1) {
+                    // * suspension
                     const msg = "در حال حاضر اکانت شما توسط ادمین به حالت تعلیق در آمده";
                     Vue.toasted.error(msg);
                     return;
+                } else if (role >= 48) {
+                    await dispatch("addDataToAxiosAndLocalStorage", res.data);
+
+                    await router.push("/");
+                } else {
+                    const msg = "شما ادمین ترسیم نیستید !";
+                    Vue.toasted.error(msg);
                 }
-
-                await dispatch("addDataToAxiosAndLocalStorage", res.data);
-
-                await router.push("/");
             })
             .catch((error) => {
                 if (error == "Error: Request failed with status code 401") {

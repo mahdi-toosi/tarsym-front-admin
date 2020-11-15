@@ -30,17 +30,48 @@
                 width: 1%;
                 white-space: nowrap;
                 border-bottom: 1px solid #c3c3c3;
+                &.categories {
+                    span {
+                        display: inline-block;
+                        position: relative;
+                        margin-left: 15px;
+                        &:not(:last-child)::after {
+                            display: block;
+                            content: "/";
+                            position: absolute;
+                            right: 100%;
+                            top: -2px;
+                            font-size: 22px;
+                            color: #a3a3a3;
+                        }
+                    }
+                }
             }
         }
         .options {
             a {
                 transition: 0.3s;
-                &:first-child {
-                    margin-left: 20px;
-                    &:hover {
-                        color: #69e02b !important;
-                    }
+                cursor: pointer;
+            }
+            .read {
+                margin-left: 15px;
+                &:hover {
+                    color: #69e02b !important;
                 }
+            }
+            .copy {
+                margin-left: 15px;
+                &:hover {
+                    color: rgb(42, 112, 224);
+                }
+            }
+            .update {
+                margin-left: 20px;
+                &:hover {
+                    color: rgb(42, 112, 224);
+                }
+            }
+            .delete {
                 &:hover {
                     color: red;
                 }

@@ -112,13 +112,10 @@ export default {
     },
     methods: {
         async getUsers() {
-            const options = { params: { $limit: 20 } };
+            const options = { params: { $limit: 20, "$sort[createdAt]": -1 } };
             const users = await this.$axios
                 .get("/users", options)
-                .then(res => {
-                    console.log({ res });
-                    return res.data;
-                })
+                .then(res => res.data)
                 .catch(error => {
                     this.$store.dispatch("handleAxiosError", error);
                 });
