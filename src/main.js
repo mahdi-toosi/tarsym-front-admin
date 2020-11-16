@@ -35,11 +35,16 @@ import router from "./router";
 import vuexSyncWithRouter from "vuex-router-sync";
 vuexSyncWithRouter.sync(store, router);
 
-Vue.config.devtools = true;
-Vue.config.productionTip = false;
+// * Vue select component
+import vSelect from "vue-select";
+Vue.component("v-select", vSelect);
+import "vue-select/dist/vue-select.css";
 
 // * add root component and
 import App from "./App.vue";
+
+Vue.config.devtools = true;
+Vue.config.productionTip = false;
 
 new Vue({
     store,

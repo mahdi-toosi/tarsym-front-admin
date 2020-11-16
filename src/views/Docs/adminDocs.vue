@@ -15,26 +15,36 @@
             <tbody>
                 <tr v-for="(doc, index) in docs.data" :key="doc._id">
                     <td>{{ index + 1 }}</td>
-                    <td>{{ doc.title }}</td>
-                    <td class="categories">
-                        <span
-                            v-for="(doc, index) in doc.categories"
-                            :key="index"
-                        >
-                            {{ doc }}
-                        </span>
-                    </td>
-                    <td>{{ doc.situation }}</td>
-                    <td>{{ doc.updatedAt | formatDate }}</td>
-                    <td>{{ doc.copiedFrom.username }}</td>
-                    <td class="options">
+                    <td>
                         <a
                             :href="`https://www.dev.tarsym.ir/read/${doc._id}`"
                             target="_blank"
-                            class="read"
                         >
-                            <i class="far fa-eye"></i>
+                            {{ doc.title }}
                         </a>
+                    </td>
+                    <td class="categories">
+                        <span
+                            v-for="(cat, index) in doc.categories"
+                            :key="index"
+                            v-text="cat"
+                        >
+                        </span>
+                    </td>
+                    <td>
+                        <v-select
+                            :options="situationOptions"
+                            :value="doc.situation"
+                            :clearable="false"
+                            :searchable="false"
+                            @input="
+                                changeSituaion({ $event, _id: doc._id, index })
+                            "
+                        />
+                    </td>
+                    <td>{{ doc.updatedAt | formatDate }}</td>
+                    <td>{{ doc.copiedFrom.username }}</td>
+                    <td class="options">
                         <a
                             :href="`https://www.dev.tarsym.ir/update/${doc._id}`"
                             target="_blank"
@@ -54,7 +64,7 @@
         </table>
 
         <button
-            @click="loadmore()"
+            @click="loadMore()"
             class="btn btn-blue loadMore"
             dir="ltr"
             v-if="docs.total > docs.data.length"
@@ -72,35 +82,9 @@ export default {
     data() {
         return {};
     },
-    methods: {
-        async getDocs() {
-            const options = {
-                params: {
-                    root: true,
-                    vitrine: true,
-                    "$sort[createdAt]": -1,
-                    $select: [
-                        "_id",
-                        "title",
-                        "categories",
-                        "updatedAt",
-                        "user",
-                        "situation",
-                        "copiedFrom",
-                    ],
-                },
-            };
-            await this.$axios
-                .get("/documents", options)
-                .then(({ data }) => {
-                    this.docs.data = this.docs.data.concat(data.data);
-                    this.docs.total = data.total;
-                    this.docs.skip = data.skip;
-                })
-                .catch((error) => {
-                    this.$store.dispatch("handleAxiosError", error);
-                });
-        },
+    methods: {},
+    created() {
+        this.getDocs({ $skip: 0, vitrine: true });
     },
 };
 </script>

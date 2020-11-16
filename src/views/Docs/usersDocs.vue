@@ -15,26 +15,36 @@
             <tbody>
                 <tr v-for="(doc, index) in docs.data" :key="doc._id">
                     <td>{{ index + 1 }}</td>
-                    <td>{{ doc.title }}</td>
-                    <td class="categories">
-                        <span
-                            v-for="(doc, index) in doc.categories"
-                            :key="index"
-                        >
-                            {{ doc }}
-                        </span>
-                    </td>
-                    <td>{{ doc.situation }}</td>
-                    <td>{{ doc.user.username }}</td>
-                    <td>{{ doc.updatedAt | formatDate }}</td>
-                    <td class="options">
+                    <td>
                         <a
                             :href="`https://www.dev.tarsym.ir/read/${doc._id}`"
                             target="_blank"
-                            class="read"
                         >
-                            <i class="far fa-eye"></i>
+                            {{ doc.title }}
                         </a>
+                    </td>
+                    <td class="categories">
+                        <span
+                            v-for="(cat, index) in doc.categories"
+                            :key="index"
+                            v-text="cat"
+                        >
+                        </span>
+                    </td>
+                    <td>
+                        <v-select
+                            :options="situationOptions"
+                            :value="doc.situation"
+                            :clearable="false"
+                            :searchable="false"
+                            @input="
+                                changeSituaion({ $event, _id: doc._id, index })
+                            "
+                        />
+                    </td>
+                    <td>{{ doc.user.username }}</td>
+                    <td>{{ doc.updatedAt | formatDate }}</td>
+                    <td class="options">
                         <a @click="copyThisDocForAdmin(doc._id)" class="copy">
                             <i class="far fa-copy"></i>
                         </a>
@@ -57,7 +67,7 @@
         </table>
 
         <button
-            @click="loadmore()"
+            @click="loadMore()"
             class="btn btn-blue loadMore"
             dir="ltr"
             v-if="docs.total > docs.data.length"
@@ -76,36 +86,6 @@ export default {
         return {};
     },
     methods: {
-        async getDocs($limit, $skip) {
-            const options = {
-                params: {
-                    root: true,
-                    vitrine: false,
-                    situation: ["public", "private"],
-                    $select: [
-                        "_id",
-                        "title",
-                        "categories",
-                        "updatedAt",
-                        "user",
-                        "situation",
-                    ],
-                    "$sort[createdAt]": -1,
-                    $limit,
-                    $skip,
-                },
-            };
-            await this.$axios
-                .get("/documents", options)
-                .then(({ data }) => {
-                    this.docs.data = this.docs.data.concat(data.data);
-                    this.docs.total = data.total;
-                    this.docs.skip = data.skip;
-                })
-                .catch((error) => {
-                    this.$store.dispatch("handleAxiosError", error);
-                });
-        },
         async copyThisDocForAdmin(_id) {
             await this.$axios
                 .post("/administrator/copyDoc", { _id })
@@ -116,6 +96,13 @@ export default {
                     this.$store.dispatch("handleAxiosError", error);
                 });
         },
+    },
+    created() {
+        this.getDocs({
+            $skip: 0,
+            vitrine: false,
+            situation: ["public", "private"],
+        });
     },
 };
 </script>

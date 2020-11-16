@@ -3,6 +3,7 @@
     margin: 0 auto;
     margin-top: 2rem;
     direction: rtl;
+    padding-right: 50px;
 
     table {
         margin: 0 auto;
@@ -22,11 +23,12 @@
                 white-space: nowrap;
                 padding: 5px;
                 position: sticky;
-                top: 50px;
+                top: 4px;
                 background: #ffffffc7;
                 border-radius: 5px;
-                z-index: 99999;
+                z-index: 9;
                 backdrop-filter: blur(4px);
+                box-shadow: 0 3px 14px -6px #0000005c;
             }
             td {
                 padding: 5px 2px;
@@ -49,18 +51,18 @@
                         }
                     }
                 }
+                a {
+                    transition: 0.2s;
+                    &:hover {
+                        color: rgb(36, 36, 36) !important;
+                    }
+                }
             }
         }
         .options {
             a {
                 transition: 0.3s;
                 cursor: pointer;
-            }
-            .read {
-                margin-left: 15px;
-                &:hover {
-                    color: #69e02b !important;
-                }
             }
             .copy {
                 margin-left: 15px;
@@ -83,6 +85,6 @@
     }
     .loadMore {
         margin-top: 0px;
-        padding: 8px 34px;
+        padding: 8px 34px 5px;
     }
 }

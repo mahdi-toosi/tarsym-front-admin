@@ -3,6 +3,10 @@ import store from "../store/";
 
 function beforeEach() {
     return async (to, from, next) => {
+        if (to.name === "logout") {
+            store.commit("LOGOUT");
+            return;
+        }
         if (to.matched.some((record) => record.meta.withoutAuth)) {
             // * scape authenticate
             next();

@@ -34,6 +34,10 @@ const routes = [
         },
     },
     {
+        path: "/logout",
+        name: "logout",
+    },
+    {
         path: "*",
         name: "404 page",
         component: () => import("@/views/404.vue"),

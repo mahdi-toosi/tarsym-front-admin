@@ -1,17 +1,70 @@
 <template>
     <div id="app">
-        <Navigation-menu v-if="displayNav" />
+        <SidebarMenu
+            :menu="menu"
+            v-if="displayNav"
+            :width="'250px'"
+            :collapsed="navcollapsed"
+            :rtl="true"
+            ref="sidebarNav"
+        >
+            <span slot="header" class="header">
+                <img src="./assets/logo.png" alt="" />
+            </span>
+        </SidebarMenu>
         <transition name="fade" mode="out-in">
             <router-view />
         </transition>
     </div>
 </template>
 <script>
-import NavigationMenu from "@/components/navigation";
+import { SidebarMenu } from "vue-sidebar-menu";
+import "vue-sidebar-menu/dist/vue-sidebar-menu.css";
+
 export default {
     name: "App",
+    data() {
+        return {
+            navcollapsed: true,
+            menu: [
+                // header item
+                {
+                    header: true,
+                    title: "پنل ادمین ترسیم",
+                    hiddenOnCollapse: true,
+                },
+
+                {
+                    href: "/",
+                    title: "صفحه نخست",
+                    icon: "fas fa-home",
+                },
+                {
+                    href: "/usersDocs",
+                    title: "داکیومنت های کاربران",
+                    icon: "fas fa-map-marked-alt",
+                },
+                {
+                    href: "/adminDocs",
+                    title: "داکیومنت های ادمین",
+                    icon: "fas fa-map-marked-alt",
+                },
+                {
+                    href: "/users",
+                    title: "کاربران",
+                    icon: "fas fa-users",
+                },
+                {
+                    href: "/logout",
+                    title: "خروج",
+                    icon: "fas fa-sign-out-alt",
+                },
+            ],
+        };
+    },
+    methods: {},
     components: {
-        NavigationMenu,
+        SidebarMenu,
     },
     computed: {
         displayNav() {

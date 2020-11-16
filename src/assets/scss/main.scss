@@ -8,6 +8,7 @@
 
 *::-webkit-scrollbar {
     width: 7px;
+    height: 7px;
     background-color: transparent;
 }
 
@@ -18,7 +19,7 @@
 
 *::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color: #353535;
+    background-color: #0f0f0f;
 }
 
 @font-face {
@@ -52,7 +53,7 @@ button {
     border: none;
 }
 
-// Toasted
+// * VUE TOAST
 .toasted {
     direction: rtl;
     justify-content: unset !important;
@@ -68,6 +69,54 @@ button {
         border-radius: 5px !important;
         padding: 5px 9px !important;
         letter-spacing: 0 !important;
+    }
+}
+
+// * VUE SIDEBAR
+.v-sidebar-menu {
+    background-color: #2a2a2e52;
+    .header {
+        img {
+            width: 45px;
+            height: 45px;
+            border-radius: 999px;
+            display: block;
+            margin: 15px auto 5px;
+            opacity: 0.8;
+        }
+    }
+    .vsm--header {
+        text-align: center;
+    }
+    .vsm--toggle-btn {
+        background-color: #2a2a2ea6;
+        height: 30px;
+        line-height: 30px;
+    }
+    .vsm--icon {
+        background-color: #1e1e21c4;
+    }
+    .vsm--link_exact-active {
+        box-shadow: unset !important;
+        i {
+            color: #4285f4;
+        }
+    }
+    .vsm--mobile-bg,
+    .router-link-exact-active {
+        border-radius: 5px;
+    }
+}
+
+// * VUE SELECT
+.v-select {
+    max-width: 120px;
+    margin: 0 auto;
+    .vs__dropdown-toggle {
+        border: none;
+    }
+    .vs__dropdown-menu {
+        min-width: 100px;
     }
 }
 
