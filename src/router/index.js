@@ -54,6 +54,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach(Helpers.beforeEach());
-// router.afterEach(Helpers.afterEach());
+router.afterEach(Helpers.afterEach());
 
 export default router;

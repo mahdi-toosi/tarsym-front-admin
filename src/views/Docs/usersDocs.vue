@@ -3,16 +3,16 @@
         <table>
             <thead>
                 <tr>
-                    <th>{{ this.docs.total }} #</th>
+                    <th>{{ docs.total }} #</th>
                     <th>عنوان داکیومنت</th>
                     <th>دسته بندی</th>
                     <th>وضعیت</th>
                     <th>کاربر</th>
-                    <th>آخرین بروزرسانی</th>
+                    <th>بروزرسانی</th>
                     <th>عملیات</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody name="orderupList" is="transition-group">
                 <tr v-for="(doc, index) in docs.data" :key="doc._id">
                     <td>{{ index + 1 }}</td>
                     <td>
@@ -45,6 +45,26 @@
                     <td>{{ doc.user.username }}</td>
                     <td>{{ doc.updatedAt | formatDate }}</td>
                     <td class="options">
+                        <a
+                            @click="read_it(doc._id, doc.read, index)"
+                            class="read"
+                        >
+                            <i
+                                class="fas"
+                                :class="
+                                    doc.read ? 'fa-check-double' : 'fa-check'
+                                "
+                            ></i>
+                        </a>
+                        <a
+                            @click="addStar(doc._id, doc.star, index)"
+                            class="star"
+                        >
+                            <i
+                                class="fa-star"
+                                :class="doc.star ? 'fas' : 'far'"
+                            ></i>
+                        </a>
                         <a @click="copyThisDocForAdmin(doc._id)" class="copy">
                             <i class="far fa-copy"></i>
                         </a>
@@ -67,7 +87,7 @@
         </table>
 
         <button
-            @click="loadMore()"
+            @click="$store.dispatch('loadMore')"
             class="btn btn-blue loadMore"
             dir="ltr"
             v-if="docs.total > docs.data.length"
@@ -85,32 +105,33 @@ export default {
     data() {
         return {};
     },
+    computed: {
+        docs() {
+            return this.$store.state.docs;
+        },
+    },
     methods: {
         async copyThisDocForAdmin(_id) {
             await this.$axios
                 .post("/administrator/copyDoc", { _id })
-                .then((res) => {
-                    console.log({ res });
+                .then()
+                .catch((error) => {
+                    this.$store.dispatch("handleAxiosError", error);
+                });
+        },
+        read_it(_id, read, index) {
+            this.$axios
+                .patch(`/documents/${_id}`, { read: !read })
+                .then(() => {
+                    this.$store.commit("REMOVE_DOC", index);
                 })
                 .catch((error) => {
                     this.$store.dispatch("handleAxiosError", error);
                 });
         },
     },
-    created() {
-        this.getDocs({
-            $skip: 0,
-            vitrine: false,
-            situation: ["public", "private"],
-        });
+    destroyed() {
+        this.$store.commit("CLEAR_DOCS");
     },
 };
 </script>
-
-<style lang="scss" scoped>
-button {
-    border-radius: 99px;
-    margin: 1rem auto;
-    display: block;
-}
-</style>

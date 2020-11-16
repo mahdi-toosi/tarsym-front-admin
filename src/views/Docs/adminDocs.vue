@@ -3,16 +3,16 @@
         <table>
             <thead>
                 <tr>
-                    <th>{{ this.docs.total }} #</th>
+                    <th>{{ docs.total }} #</th>
                     <th>عنوان داکیومنت</th>
                     <th>دسته بندی</th>
                     <th>وضعیت</th>
-                    <th>آخرین بروزرسانی</th>
+                    <th>بروزرسانی</th>
                     <th>مالک اولیه</th>
                     <th>عملیات</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody name="orderupList" is="transition-group">
                 <tr v-for="(doc, index) in docs.data" :key="doc._id">
                     <td>{{ index + 1 }}</td>
                     <td>
@@ -46,6 +46,15 @@
                     <td>{{ doc.copiedFrom.username }}</td>
                     <td class="options">
                         <a
+                            @click="addStar(doc._id, doc.star, index)"
+                            class="star"
+                        >
+                            <i
+                                class="fa-star"
+                                :class="doc.star ? 'fas' : 'far'"
+                            ></i>
+                        </a>
+                        <a
                             :href="`https://www.dev.tarsym.ir/update/${doc._id}`"
                             target="_blank"
                             class="update"
@@ -64,7 +73,7 @@
         </table>
 
         <button
-            @click="loadMore()"
+            @click="$store.dispatch('loadMore')"
             class="btn btn-blue loadMore"
             dir="ltr"
             v-if="docs.total > docs.data.length"
@@ -82,9 +91,13 @@ export default {
     data() {
         return {};
     },
-    methods: {},
-    created() {
-        this.getDocs({ $skip: 0, vitrine: true });
+    computed: {
+        docs() {
+            return this.$store.state.docs;
+        },
+    },
+    destroyed() {
+        this.$store.commit("CLEAR_DOCS");
     },
 };
 </script>

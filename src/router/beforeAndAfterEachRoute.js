@@ -1,5 +1,6 @@
 import Vue from "vue";
 import store from "../store/";
+import firstQueries from "../store/firstQueries";
 
 function beforeEach() {
     return async (to, from, next) => {
@@ -23,14 +24,20 @@ function beforeEach() {
         } else store.commit("LOGOUT");
     };
 }
-// function afterEach() {
-//     return async (to) => {
-//         const RN = to.name; // * route name
-//     };
-// }
+
+function afterEach() {
+    return async (to) => {
+        const RN = to.name; // * route name3
+        if (RN === "usersDocsPage") {
+            store.dispatch("getDocs", firstQueries.usersDocs);
+        } else if (RN === "adminDocsPage") {
+            store.dispatch("getDocs", firstQueries.adminDocs);
+        }
+    };
+}
 export default {
     beforeEach,
-    // afterEach,
+    afterEach,
 };
 
 // * Helper Functions

@@ -75,6 +75,9 @@ button {
 // * VUE SIDEBAR
 .v-sidebar-menu {
     background-color: #2a2a2e52;
+    &.vsm_expanded {
+        background-color: #28282cb8;
+    }
     .header {
         img {
             width: 45px;
@@ -94,7 +97,8 @@ button {
         line-height: 30px;
     }
     .vsm--icon {
-        background-color: #1e1e21c4;
+        background-color: #1e1e21c4 !important;
+        margin-right: 3px !important;
     }
     .vsm--link_exact-active {
         box-shadow: unset !important;
@@ -121,8 +125,8 @@ button {
 }
 
 #app {
-    max-height: 100vh;
-    overflow: auto;
+    height: 100vh;
+    overflow: overlay;
     direction: ltr;
 }
 

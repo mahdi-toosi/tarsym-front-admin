@@ -64,27 +64,59 @@
                 transition: 0.3s;
                 cursor: pointer;
             }
+            .star {
+                margin-left: 15px;
+                .fas {
+                    color: gold;
+                    transition: 0.3s;
+                }
+                .far {
+                    transition: 0.3s;
+                    &:hover {
+                        color: gold;
+                    }
+                }
+            }
+            .read {
+                margin-left: 15px;
+                &:hover {
+                    color: rgb(42, 112, 224) !important;
+                }
+            }
             .copy {
                 margin-left: 15px;
                 &:hover {
-                    color: rgb(42, 112, 224);
+                    color: rgb(42, 112, 224) !important;
                 }
             }
             .update {
                 margin-left: 20px;
                 &:hover {
-                    color: rgb(42, 112, 224);
+                    color: rgb(42, 112, 224) !important;
                 }
             }
             .delete {
                 &:hover {
-                    color: red;
+                    color: red !important;
                 }
             }
         }
     }
     .loadMore {
-        margin-top: 0px;
         padding: 8px 34px 5px;
+        border-radius: 99px;
+        margin: 1rem auto;
+        margin-top: 0px;
+        display: block;
     }
+}
+
+.orderupList-enter-active,
+.orderupList-leave-active {
+    transition: all 1s;
+}
+.orderupList-enter,
+.orderupList-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
 }
