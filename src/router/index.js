@@ -13,12 +13,12 @@ const routes = [
     {
         path: "/adminDocs",
         name: "adminDocsPage",
-        component: () => import("@/views/Docs/adminDocs.vue"),
+        component: () => import("@/views/Docs.vue"),
     },
     {
         path: "/usersDocs",
         name: "usersDocsPage",
-        component: () => import("@/views/Docs/usersDocs.vue"),
+        component: () => import("@/views/Docs.vue"),
     },
     {
         path: "/users",

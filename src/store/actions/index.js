@@ -21,12 +21,13 @@ export default {
         }
         Vue.toasted.error(msg);
     },
-    async getDocs({ dispatch, commit }, options) {
+    async getDocs({ dispatch, commit }, query) {
+        commit("CLEAR_DOCS");
         await axios
-            .get("/documents", options)
+            .get("/documents", { params: query })
             .then(({ data }) => {
                 commit("SET_DOCS", data);
-                commit("SET_LAST_QUERY", options);
+                commit("SET_LAST_QUERY", query);
             })
             .catch((error) => {
                 dispatch("handleAxiosError", error);

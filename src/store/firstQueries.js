@@ -3,23 +3,18 @@ const baseQuery = {
     $limit: 20,
     $skip: 0,
     root: true,
+    "$sort[updatedAt]": -1,
 };
 
 export default {
     usersDocs: {
-        params: {
-            ...baseQuery,
-            vitrine: false,
-            situation: ["public", "private"],
-            read: false,
-            "$sort[updatedAt]": -1,
-        },
+        ...baseQuery,
+        vitrine: false,
+        situation: ["public", "private"],
+        read: false,
     },
     adminDocs: {
-        params: {
-            ...baseQuery,
-            vitrine: true,
-            "$sort[updatedAt]": -1,
-        },
+        ...baseQuery,
+        vitrine: true,
     },
 };

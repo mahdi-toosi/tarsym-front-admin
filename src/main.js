@@ -40,6 +40,11 @@ import vSelect from "vue-select";
 Vue.component("v-select", vSelect);
 import "vue-select/dist/vue-select.css";
 
+// * Vue Modal component
+import VModal from "vue-js-modal";
+import "vue-js-modal/dist/styles.css";
+Vue.use(VModal);
+
 // * add root component and
 import App from "./App.vue";
 

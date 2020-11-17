@@ -101,6 +101,17 @@
                 }
             }
         }
+        // * VUE SELECT
+        .v-select {
+            max-width: 120px;
+            margin: 0 auto;
+            .vs__dropdown-toggle {
+                border: none;
+            }
+            .vs__dropdown-menu {
+                min-width: 100px;
+            }
+        }
     }
     .loadMore {
         padding: 8px 34px 5px;
@@ -108,6 +119,59 @@
         margin: 1rem auto;
         margin-top: 0px;
         display: block;
+    }
+}
+.vm--modal {
+    overflow: visible;
+}
+.query-builder {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    .v-select {
+        width: 70%;
+        .vs__actions,
+        .vs__no-options {
+            display: none;
+        }
+    }
+    .options {
+        width: 70%;
+        & > ul {
+            margin: 15px 0;
+            padding: 0px;
+            display: flex;
+            li {
+                list-style-type: none;
+                display: flex;
+                align-items: center;
+                margin: 0 auto;
+            }
+        }
+        .titleInput {
+            border: 1px solid rgba(60, 60, 60, 0.26);
+            border-radius: 4px;
+            padding: 6px;
+            width: 67%;
+        }
+    }
+    .actions {
+        width: 30%;
+        padding-right: 10px;
+        border-right: #bababaad solid 1px;
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        button {
+            margin: 15px 0 !important;
+        }
+    }
+    label {
+        display: block;
+    }
+    & > div > div {
+        margin: 10px 0;
     }
 }
 

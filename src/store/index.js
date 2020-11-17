@@ -6,7 +6,12 @@ import mutations from "./mutations";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-    state: { user: {}, docs: { data: [], total: 0, skip: 0, $limit: 20 }, lastQuery: {} },
+    state: {
+        user: {},
+        docs: { data: [], total: 0, skip: 0, $limit: 20 },
+        lastQuery: {},
+        situationOptions: ["public", "private", "trash", "draft"],
+    },
     mutations,
     actions,
     getters: {

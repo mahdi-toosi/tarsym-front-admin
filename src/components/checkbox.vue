@@ -1,6 +1,12 @@
 <template>
     <div class="checkbox-container">
-        <input class="checkbox" type="checkbox" :checked="isChecked" />
+        <input
+            class="checkbox"
+            type="checkbox"
+            :id="ID"
+            :checked="value"
+            @input="$emit('input', $event.target.checked)"
+        />
         <div class="checkbox-visual" dir="ltr">
             <div></div>
         </div>
@@ -10,11 +16,19 @@
 <script>
 export default {
     props: {
-        isChecked: {
+        value: {
             type: Boolean,
-            default: false
-        }
-    }
+            default: false,
+        },
+        ID: {
+            type: String,
+        },
+    },
+    methods: {
+        log(e) {
+            console.log(e);
+        },
+    },
 };
 </script>
 
@@ -29,7 +43,7 @@ export default {
     grid-template-columns: max-content min-content;
     grid-template-rows: max-content;
     align-items: center;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     width: 44px;
 }
 

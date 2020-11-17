@@ -112,18 +112,6 @@ button {
     }
 }
 
-// * VUE SELECT
-.v-select {
-    max-width: 120px;
-    margin: 0 auto;
-    .vs__dropdown-toggle {
-        border: none;
-    }
-    .vs__dropdown-menu {
-        min-width: 100px;
-    }
-}
-
 #app {
     height: 100vh;
     overflow: overlay;
