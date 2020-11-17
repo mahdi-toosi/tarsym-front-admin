@@ -14,11 +14,30 @@ const routes = [
         path: "/adminDocs",
         name: "adminDocsPage",
         component: () => import("@/views/Docs.vue"),
+        children: [
+            {
+                path: "star",
+                name: "adminDocsPage_hasStar",
+                component: () => import("@/views/Docs.vue"),
+            },
+        ],
     },
     {
         path: "/usersDocs",
         name: "usersDocsPage",
         component: () => import("@/views/Docs.vue"),
+        children: [
+            {
+                path: "star",
+                name: "usersDocsPage_hasStar",
+                component: () => import("@/views/Docs.vue"),
+            },
+            {
+                path: "read",
+                name: "usersDocsPage_read",
+                component: () => import("@/views/Docs.vue"),
+            },
+        ],
     },
     {
         path: "/users",

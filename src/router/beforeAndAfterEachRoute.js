@@ -28,11 +28,11 @@ function beforeEach() {
 function afterEach() {
     return async (to) => {
         const RN = to.name; // * route name3
-        if (RN === "usersDocsPage") {
-            store.dispatch("getDocs", firstQueries.usersDocs);
-        } else if (RN === "adminDocsPage") {
-            store.dispatch("getDocs", firstQueries.adminDocs);
-        }
+        if (RN === "usersDocsPage") store.dispatch("getDocs", firstQueries.usersDocs);
+        else if (RN === "adminDocsPage") store.dispatch("getDocs", firstQueries.adminDocs);
+        else if (RN === "adminDocsPage_hasStar") store.dispatch("getDocs", firstQueries.adminDocs_star);
+        else if (RN === "usersDocsPage_hasStar") store.dispatch("getDocs", firstQueries.usersDocs_star);
+        else if (RN === "usersDocsPage_read") store.dispatch("getDocs", firstQueries.usersDocs_read);
     };
 }
 export default {

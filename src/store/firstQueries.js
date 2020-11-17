@@ -17,4 +17,21 @@ export default {
         ...baseQuery,
         vitrine: true,
     },
+    adminDocs_star: {
+        ...baseQuery,
+        vitrine: true,
+        star: true,
+    },
+    usersDocs_star: {
+        ...baseQuery,
+        vitrine: false,
+        situation: ["public", "private"],
+        star: true,
+    },
+    usersDocs_read: {
+        ...baseQuery,
+        vitrine: false,
+        situation: ["public", "private"],
+        read: true,
+    },
 };

@@ -4,7 +4,7 @@
             :menu="menu"
             v-if="displayNav"
             :width="'250px'"
-            :collapsed="navcollapsed"
+            :collapsed="true"
             :rtl="true"
             ref="sidebarNav"
         >
@@ -12,6 +12,7 @@
                 <img src="./assets/logo.png" alt="" />
             </span>
         </SidebarMenu>
+
         <transition name="fade" mode="out-in">
             <router-view />
         </transition>
@@ -25,9 +26,7 @@ export default {
     name: "App",
     data() {
         return {
-            navcollapsed: true,
             menu: [
-                // header item
                 {
                     header: true,
                     title: "پنل ادمین ترسیم",
@@ -43,11 +42,30 @@ export default {
                     href: "/usersDocs",
                     title: "داکیومنت های کاربران",
                     icon: "fas fa-map-marked-alt",
+                    child: [
+                        {
+                            href: "/usersDocs/star",
+                            title: "ستاره دار",
+                            icon: "fas fa-star",
+                        },
+                        {
+                            href: "/usersDocs/read",
+                            title: "خوانده شده",
+                            icon: "fas fa-check-double",
+                        },
+                    ],
                 },
                 {
                     href: "/adminDocs",
                     title: "داکیومنت های ادمین",
                     icon: "fas fa-map-marked-alt",
+                    child: [
+                        {
+                            href: "/adminDocs/star",
+                            title: "ستاره دار",
+                            icon: "fas fa-star",
+                        },
+                    ],
                 },
                 {
                     href: "/users",

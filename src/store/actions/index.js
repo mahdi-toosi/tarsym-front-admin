@@ -1,6 +1,7 @@
 import Vue from "vue";
 import axios from "axios";
 import auth from "./auth";
+
 export default {
     ...auth,
     handleAxiosError({ commit }, error) {
@@ -22,7 +23,6 @@ export default {
         Vue.toasted.error(msg);
     },
     async getDocs({ dispatch, commit }, query) {
-        commit("CLEAR_DOCS");
         await axios
             .get("/documents", { params: query })
             .then(({ data }) => {
@@ -36,7 +36,7 @@ export default {
     loadMore({ state, dispatch }) {
         const $skip = state.docs.data.length;
         const lastQuery = state.lastQuery;
-        lastQuery.params.$skip = $skip;
+        lastQuery.$skip = $skip;
         dispatch("getDocs", lastQuery);
     },
 };

@@ -191,19 +191,27 @@ export default {
                     this.$store.dispatch("handleAxiosError", error);
                 });
         },
+        clear_docs() {
+            this.$store.commit("CLEAR_DOCS");
+        },
     },
     filters: {
         formatDate(dateString) {
             return new Date(dateString).toLocaleDateString("fa-IR");
         },
     },
+    watch: {
+        // call again the method if the route changes
+        $route: "clear_docs",
+    },
     computed: {
         docs() {
             return this.$store.state.docs;
         },
         isUsersDocs() {
-            return this.$store.state.route.name === "usersDocsPage";
+            return this.$route.matched[0].name === "usersDocsPage";
         },
     },
+    created() {},
 };
 </script>

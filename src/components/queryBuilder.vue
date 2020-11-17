@@ -44,12 +44,12 @@
                     <CheckBox v-model="options.star" ID="star" />
                 </li>
 
-                <li v-if="$route.name === 'usersDocsPage'">
+                <li v-if="$route.matched[0].name === 'usersDocsPage'">
                     <label for="read">read</label>
                     <CheckBox v-model="options.read" ID="read" />
                 </li>
 
-                <li>
+                <li v-if="$route.matched[0].name === 'adminDocsPage'">
                     <label for="vitrine">vitrine</label>
                     <CheckBox v-model="options.vitrine" ID="vitrine" />
                 </li>
@@ -85,6 +85,7 @@ export default {
     methods: {
         async getDocs() {
             const query = this.buildQuery();
+            await this.$store.commit("CLEAR_DOCS");
             await this.$store.dispatch("getDocs", query);
             this.$modal.hide("query-builder");
         },
