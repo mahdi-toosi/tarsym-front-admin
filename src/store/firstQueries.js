@@ -10,7 +10,7 @@ export default {
     usersDocs: {
         ...baseQuery,
         vitrine: false,
-        situation: ["public", "private"],
+        situation: ["publish", "private"],
         read: false,
     },
     adminDocs: {
@@ -25,13 +25,13 @@ export default {
     usersDocs_star: {
         ...baseQuery,
         vitrine: false,
-        situation: ["public", "private"],
+        situation: ["publish", "private"],
         star: true,
     },
     usersDocs_read: {
         ...baseQuery,
         vitrine: false,
-        situation: ["public", "private"],
+        situation: ["publish", "private"],
         read: true,
     },
 };

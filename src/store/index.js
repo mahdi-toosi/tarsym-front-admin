@@ -10,7 +10,7 @@ export default new Vuex.Store({
         user: {},
         docs: { data: [], total: 0, skip: 0, $limit: 20 },
         lastQuery: {},
-        situationOptions: ["public", "private", "trash", "draft"],
+        situationOptions: ["publish", "private", "trash", "draft"],
     },
     mutations,
     actions,

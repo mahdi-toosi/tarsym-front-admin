@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-        <Modal name="query-builder" dir="ltr">
+        <Modal name="query-builder" dir="ltr" height="375">
             <QueryBuilder />
         </Modal>
 
@@ -203,6 +203,9 @@ export default {
     watch: {
         // call again the method if the route changes
         $route: "clear_docs",
+    },
+    destroyed() {
+        this.clear_docs();
     },
     computed: {
         docs() {

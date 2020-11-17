@@ -3,6 +3,14 @@
         <div class="options">
             <label for="title">title</label>
             <input type="text" v-model="options.title" class="titleInput" />
+
+            <label for="username" style="margin-top: 10px">username</label>
+            <input
+                type="text"
+                v-model="options['user.username']"
+                class="titleInput"
+            />
+
             <div>
                 <label for="category">category</label>
                 <v-select
@@ -41,17 +49,20 @@
             <ul>
                 <li>
                     <label for="star">star</label>
-                    <CheckBox v-model="options.star" ID="star" />
+                    <VueSlider
+                        v-model="options.star"
+                        :data="data"
+                        :marks="true"
+                    />
                 </li>
 
                 <li v-if="$route.matched[0].name === 'usersDocsPage'">
                     <label for="read">read</label>
-                    <CheckBox v-model="options.read" ID="read" />
-                </li>
-
-                <li v-if="$route.matched[0].name === 'adminDocsPage'">
-                    <label for="vitrine">vitrine</label>
-                    <CheckBox v-model="options.vitrine" ID="vitrine" />
+                    <VueSlider
+                        v-model="options.read"
+                        :data="data"
+                        :marks="true"
+                    />
                 </li>
             </ul>
         </div>
@@ -66,7 +77,9 @@
 </template>
 
 <script>
-import CheckBox from "./checkbox";
+import VueSlider from "vue-slider-component";
+import "vue-slider-component/theme/default.css";
+
 export default {
     name: "queryBuilder",
     data() {
@@ -76,10 +89,9 @@ export default {
                 situation: [],
                 categories: [],
                 tags: [],
-                star: false,
-                read: false,
-                vitrine: false,
+                "user.username": undefined,
             },
+            data: ["none", "false", "true"],
         };
     },
     methods: {
@@ -93,9 +105,12 @@ export default {
             const o = { ...this.options };
             // clean query
             if (!o.title) delete o.title;
+            if (!o["user[username]"]) delete o["user[username]"];
             if (!o.situation.length) delete o.situation;
             if (!o.categories.length) delete o.categories;
             if (!o.tags.length) delete o.tags;
+            if (o.read === "none") delete o.read;
+            if (o.star === "none") delete o.star;
             if (this.$route.name === "adminDocsPage") delete o.read;
             // add base options to query and return
             const baseQuery = {
@@ -119,12 +134,12 @@ export default {
         },
     },
     components: {
-        CheckBox,
+        VueSlider,
     },
     created() {
-        if (this.$route.name === "adminDocsPage") {
-            this.options.vitrine = true;
-        }
+        const RN = this.$route.matched[0].name;
+        if (RN === "usersDocsPage") this.options.vitrine = false;
+        else if (RN === "adminDocsPage") this.options.vitrine = true;
     },
 };
 </script>

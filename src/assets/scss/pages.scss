@@ -129,7 +129,7 @@
     align-items: center;
     padding: 15px;
     .v-select {
-        width: 70%;
+        width: 100%;
         .vs__actions,
         .vs__no-options {
             display: none;
@@ -137,6 +137,8 @@
     }
     .options {
         width: 70%;
+        padding-left: 15px;
+
         & > ul {
             margin: 15px 0;
             padding: 0px;
@@ -152,7 +154,13 @@
             border: 1px solid rgba(60, 60, 60, 0.26);
             border-radius: 4px;
             padding: 6px;
-            width: 67%;
+            width: 97%;
+        }
+        .vue-slider {
+            width: 100px !important;
+            .vue-slider-marks {
+                cursor: pointer;
+            }
         }
     }
     .actions {
@@ -169,6 +177,7 @@
     }
     label {
         display: block;
+        margin-left: 20px;
     }
     & > div > div {
         margin: 10px 0;
