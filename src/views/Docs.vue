@@ -106,6 +106,7 @@
                 </tr>
             </tbody>
         </table>
+
         <button
             @click="$store.dispatch('loadMore')"
             class="btn btn-blue loadMore"

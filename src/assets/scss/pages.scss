@@ -15,6 +15,9 @@
         backdrop-filter: blur(4px);
         position: relative;
         tr {
+            &.drawerRequest {
+                background: #ffc04d;
+            }
             &:hover {
                 background: #dedede;
             }
@@ -121,9 +124,11 @@
         display: block;
     }
 }
+
 .vm--modal {
     overflow: visible;
 }
+
 .query-builder {
     display: flex;
     align-items: center;
@@ -188,8 +193,11 @@
 .orderupList-leave-active {
     transition: all 1s;
 }
+
 .orderupList-enter,
 .orderupList-leave-to {
     opacity: 0;
     transform: translateX(30px);
 }
+
+@import "usersPage.scss";

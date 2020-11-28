@@ -22,21 +22,23 @@ export default {
         }
         Vue.toasted.error(msg);
     },
-    async getDocs({ dispatch, commit }, query) {
+    loadMore({ state, dispatch }) {
+        const lastRequest = state.lastQuery;
+
+        const $skip = lastRequest.url === "/documents" ? state.docs.data.length : state.users.data.length;
+        lastRequest.query.$skip = $skip;
+
+        dispatch("getRequest", lastRequest);
+    },
+    async getReq({ commit, dispatch }, req) {
         await axios
-            .get("/documents", { params: query })
+            .get(req.url, { params: req.query })
             .then(({ data }) => {
-                commit("SET_DOCS", data);
-                commit("SET_LAST_QUERY", query);
+                commit("SET_DATA", { data, url: req.url });
+                commit("SET_LAST_REQUEST", req);
             })
             .catch((error) => {
                 dispatch("handleAxiosError", error);
             });
-    },
-    loadMore({ state, dispatch }) {
-        const $skip = state.docs.data.length;
-        const lastQuery = state.lastQuery;
-        lastQuery.$skip = $skip;
-        dispatch("getDocs", lastQuery);
     },
 };

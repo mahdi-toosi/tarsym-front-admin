@@ -8,9 +8,21 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         user: {},
-        docs: { data: [], total: 0, skip: 0, $limit: 20 },
+        docs: { data: [], total: 0, skip: 0 },
         lastQuery: {},
         situationOptions: ["publish", "private", "trash", "draft"],
+        userEditStage: {},
+        userRoles: {
+            3: "کاربر",
+            35: "ترسیم کننده",
+            48: "ادمین",
+            1: "تعلیق شده",
+        },
+        users: {
+            data: [],
+            skip: 0,
+            total: 0,
+        },
     },
     mutations,
     actions,

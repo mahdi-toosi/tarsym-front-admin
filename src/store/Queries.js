@@ -1,4 +1,4 @@
-const baseQuery = {
+const baseQueryForDocs = {
     $select: ["_id", "title", "user", "situation", "copiedFrom", "star", "read", "categories", "updatedAt"],
     $limit: 20,
     $skip: 0,
@@ -7,31 +7,38 @@ const baseQuery = {
 };
 
 export default {
+    baseQueryForDocs,
     usersDocs: {
-        ...baseQuery,
+        ...baseQueryForDocs,
         vitrine: false,
         situation: ["publish", "private"],
         read: false,
     },
     adminDocs: {
-        ...baseQuery,
+        ...baseQueryForDocs,
         vitrine: true,
     },
     adminDocs_star: {
-        ...baseQuery,
+        ...baseQueryForDocs,
         vitrine: true,
         star: true,
     },
     usersDocs_star: {
-        ...baseQuery,
+        ...baseQueryForDocs,
         vitrine: false,
         situation: ["publish", "private"],
         star: true,
     },
     usersDocs_read: {
-        ...baseQuery,
+        ...baseQueryForDocs,
         vitrine: false,
         situation: ["publish", "private"],
         read: true,
+    },
+    allUsers: { $limit: 40, "$sort[updatedAt]": -1 },
+    drawerRequest: {
+        $limit: 40,
+        "$sort[nationalCode]": -1,
+        role: 3,
     },
 };

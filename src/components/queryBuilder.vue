@@ -79,6 +79,7 @@
 <script>
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/default.css";
+import Queries from "@/store/Queries";
 
 export default {
     name: "queryBuilder",
@@ -98,7 +99,7 @@ export default {
         async getDocs() {
             const query = this.buildQuery();
             await this.$store.commit("CLEAR_DOCS");
-            await this.$store.dispatch("getDocs", query);
+            await this.$store.dispatch("getReq", { url: "/documents", query });
             this.$modal.hide("query-builder");
         },
         buildQuery() {
@@ -113,24 +114,7 @@ export default {
             if (o.star === "none") delete o.star;
             if (this.$route.name === "adminDocsPage") delete o.read;
             // add base options to query and return
-            const baseQuery = {
-                $select: [
-                    "_id",
-                    "title",
-                    "user",
-                    "situation",
-                    "copiedFrom",
-                    "star",
-                    "read",
-                    "categories",
-                    "updatedAt",
-                ],
-                $limit: 20,
-                $skip: 0,
-                root: true,
-                "$sort[updatedAt]": -1,
-            };
-            return { ...o, ...baseQuery };
+            return { ...o, ...Queries.baseQueryForDocs };
         },
     },
     components: {

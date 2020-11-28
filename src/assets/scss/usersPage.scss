@@ -1,0 +1,111 @@
+.content.usersPage {
+    max-width: 60vw;
+    header {
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    tr {
+        &.suspended {
+            background: orange;
+        }
+
+        .name {
+            min-width: 120px;
+            max-width: 200px;
+        }
+
+        .role {
+            width: 80px;
+            text-align: center;
+        }
+
+        .edit {
+            width: 30px;
+            text-align: center;
+
+            i {
+                cursor: pointer;
+                transition: 0.3s;
+                &:hover {
+                    color: #32eb32 !important;
+                }
+            }
+        }
+    }
+
+    .userEditStage {
+        padding: 30px 20px;
+        border-radius: 15px;
+        display: flex;
+        direction: rtl;
+        justify-content: space-between;
+
+        .rightColumn,
+        .leftColumn {
+            display: flex;
+            flex-direction: column;
+            & > div {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+        .leftColumn {
+            justify-content: space-between;
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            button {
+                margin: 20px;
+            }
+        }
+
+        .v-select .vs__clear {
+            display: none;
+        }
+
+        label {
+            font-size: 13px;
+            margin: 10px 0 -9px 12px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            margin: 10px 0;
+            border: none;
+            border-bottom: 1px #a1a1a1 solid;
+            padding: 5px;
+        }
+
+        #nationalCode {
+            direction: ltr;
+            text-align: left;
+        }
+
+        p {
+            font-size: 14px;
+            margin: 30px 0 20px;
+            text-align: center;
+        }
+
+        .roles {
+            margin: 10px 0 15px;
+        }
+
+        .fa-times {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            cursor: pointer;
+
+            &:hover {
+                color: red;
+            }
+        }
+    }
+}

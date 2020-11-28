@@ -3,7 +3,6 @@ node_modules
 administrator
 administrator.zip
 
-
 # local env files
 .env.local
 .env.*.local

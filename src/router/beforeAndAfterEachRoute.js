@@ -1,6 +1,6 @@
 import Vue from "vue";
 import store from "../store/";
-import firstQueries from "../store/firstQueries";
+import Queries from "../store/Queries";
 
 function beforeEach() {
     return async (to, from, next) => {
@@ -21,18 +21,24 @@ function beforeEach() {
             // minimum role = 48
             next();
             return;
-        } else store.commit("LOGOUT");
+        } else store.commit("LOGOUT", to.path);
     };
 }
 
 function afterEach() {
     return async (to) => {
         const RN = to.name; // * route name3
-        if (RN === "usersDocsPage") store.dispatch("getDocs", firstQueries.usersDocs);
-        else if (RN === "adminDocsPage") store.dispatch("getDocs", firstQueries.adminDocs);
-        else if (RN === "adminDocsPage_hasStar") store.dispatch("getDocs", firstQueries.adminDocs_star);
-        else if (RN === "usersDocsPage_hasStar") store.dispatch("getDocs", firstQueries.usersDocs_star);
-        else if (RN === "usersDocsPage_read") store.dispatch("getDocs", firstQueries.usersDocs_read);
+        // * documents
+        const url = "/documents";
+        if (RN === "usersDocsPage") store.dispatch("getReq", { url, query: Queries.usersDocs });
+        else if (RN === "adminDocsPage") store.dispatch("getReq", { url, query: Queries.adminDocs });
+        else if (RN === "adminDocsPage_hasStar") store.dispatch("getReq", { url, query: Queries.adminDocs_star });
+        else if (RN === "usersDocsPage_hasStar") store.dispatch("getReq", { url, query: Queries.usersDocs_star });
+        else if (RN === "usersDocsPage_read") store.dispatch("getReq", { url, query: Queries.usersDocs_read });
+        // * users
+        else if (RN === "allUsers") store.dispatch("getReq", { url: "/users", query: Queries.allUsers });
+        else if (RN === "usersWithDrawerRequest")
+            store.dispatch("getReq", { url: "/users", query: Queries.drawerRequest });
     };
 }
 export default {
@@ -51,10 +57,9 @@ function set_user_if_exist(minimumRole) {
         store.commit("SET_USER_ACCESS_TOKEN", userData.accessToken);
         // * validate user role for route
         if (minimumRole <= store.state.user.role) return true;
-        else {
-            // Vue.toasted.error("اکانت شما دسترسی لازم برای استفاده از این صفحه را نداشت   ...");
-            return false;
-        }
+
+        // Vue.toasted.error("اکانت شما دسترسی لازم برای استفاده از این صفحه را نداشت   ...");
+        return false;
     }
     return false;
 }
@@ -63,10 +68,9 @@ function checkForAuth(minimumRole) {
     // * validate user role for route if exist
     if (store.getters.isAuthenticated) {
         if (minimumRole <= store.state.user.role) return true;
-        else {
-            Vue.toasted.error("اکانت شما دسترسی لازم برای استفاده از این صفحه را نداشت  ...");
-            return false;
-        }
+
+        Vue.toasted.error("اکانت شما دسترسی لازم برای استفاده از این صفحه را نداشت  ...");
+        return false;
     }
     return false;
 }

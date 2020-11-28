@@ -71,11 +71,18 @@ export default {
                     href: "/users",
                     title: "کاربران",
                     icon: "fas fa-users",
+                    child: [
+                        {
+                            href: "/users/DrawerRequest",
+                            title: "درخواست های ترسیم کننده",
+                        },
+                    ],
                 },
                 {
                     href: "/logout",
                     title: "خروج",
                     icon: "fas fa-sign-out-alt",
+                    class: "exitButton",
                 },
             ],
         };
