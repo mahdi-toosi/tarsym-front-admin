@@ -31,7 +31,7 @@
                     <td>{{ index + 1 }}</td>
                     <td>
                         <a
-                            :href="`https://www.dev.tarsym.ir/read/${doc._id}`"
+                            :href="`${frontLink}/read/${doc._id}`"
                             target="_blank"
                         >
                             {{ doc.title }}
@@ -90,7 +90,7 @@
                             <i class="far fa-copy"></i>
                         </a>
                         <a
-                            :href="`https://www.dev.tarsym.ir/update/${doc._id}`"
+                            :href="`${frontLink}/update/${doc._id}`"
                             target="_blank"
                             class="update"
                         >
@@ -214,6 +214,9 @@ export default {
         },
         isUsersDocs() {
             return this.$route.matched[0].name === "usersDocsPage";
+        },
+        frontLink() {
+            return process.env.VUE_APP_DOMAIN_front;
         },
     },
     created() {},

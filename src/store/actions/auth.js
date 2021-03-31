@@ -1,6 +1,7 @@
 import Vue from "vue";
 import router from "../../router";
 import axios from "axios";
+import NProgress from "nprogress";
 
 export default {
     async login({ dispatch }, user) {
@@ -32,6 +33,7 @@ export default {
                 if (error == "Error: Request failed with status code 401") {
                     const msg = "نام کاربری یا رمز عبور اشتباه است ...";
                     Vue.toasted.error(msg);
+                    NProgress.done();
                     return;
                 }
                 dispatch("handleAxiosError", error);

@@ -1,26 +1,40 @@
 import Vue from "vue";
 import axios from "axios";
 import auth from "./auth";
+import NProgress from "nprogress";
 
 export default {
     ...auth,
     handleAxiosError({ commit }, error) {
+        NProgress.done();
         let msg;
-        if (error == "Error: Network Error") msg = "مشکل در برقراری ارتباط با سرور";
-        else if (error == "Error: Request failed with status code 409") msg = "مختصات شاخص قبلا به ثبت رسیده است";
-        else if (error == "Error: Request failed with status code 503") msg = "مشکل در برقراری ارتباط با سرور";
-        else if (error == "Error: Request failed with status code 400") msg = "درخواست شما معتبر نمیباشد";
-        else if (error == "Error: Request failed with status code 500") msg = "مشکلی در سرور بوجود آمده است";
-        else if (error == "Error: Request failed with status code 404") msg = "دیتای درخواستی پیدا نشد ...";
-        else if (error == "Error: Request failed with status code 401") {
-            // msg = "نام کاربری یا رمز عبور اشتباه است"
-            commit("LOGOUT");
-        } else {
-            msg = error;
-            // msg = "مشکلی در ارتباط با سرور بوجود آمده، لطفا چند دقیقه بعد دوباره امتحان کنید";
-            console.log("request get error => ", msg);
+        if (error == "Error: Network Error") {
+            msg = "مشکل در برقراری ارتباط با سرور";
+            Vue.toasted.error(msg);
+            return;
         }
-        Vue.toasted.error(msg);
+        if (error.response) {
+            const { status } = error.response;
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            if (status >= 500) msg = "مشکل در برقراری ارتباط با سرور";
+            else if (status == 400) msg = "درخواست شما معتبر نمیباشد";
+            else if (status == 404) msg = "دیتای درخواستی پیدا نشد ...";
+            else if (status == 401) {
+                msg = "شما دسترسی لازم را ندارید ...";
+                commit("LOGOUT");
+            } else {
+                msg = "response get error , check the console";
+                console.log("response get error => ", error);
+            }
+            Vue.toasted.error(msg);
+        } else if (error.request) {
+            console.log("request get error => ", error);
+            Vue.toasted.error("request get error , check the console");
+        } else {
+            console.log("Error", error);
+            Vue.toasted.error("check the console");
+        }
     },
     loadMore({ state, dispatch }) {
         const lastRequest = state.lastQuery;

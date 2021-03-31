@@ -3,11 +3,29 @@
         class="userEditStage"
         @submit.prevent="createMode ? createUser() : updateUser()"
     >
+        <div class="profileAvatar">
+            <img
+                class="profile-pic"
+                :src="avatar || '/imgs/profileAvatar.png'"
+            />
+            <div class="image_input">
+                <i class="fa fa-camera" @click="$refs.avatarInput.click()"></i>
+                <input
+                    class="file-upload"
+                    type="file"
+                    ref="avatarInput"
+                    accept="image/png,image/jpg,image/jpeg"
+                    @change="uploadAvatar"
+                />
+            </div>
+        </div>
+
         <div class="rightColumn">
             <div>
                 <label for="name">نام و نام خانوادگی</label>
                 <input type="text" id="name" v-model="user.name" />
             </div>
+
             <div>
                 <label for="username">نام کاربری</label>
                 <input
@@ -17,6 +35,7 @@
                     v-model="user.username"
                 />
             </div>
+
             <div>
                 <label for="nationalCode">کد ملی</label>
                 <input
@@ -25,10 +44,12 @@
                     v-model="user.nationalCode"
                 />
             </div>
+
             <div>
                 <label for="city">شهر</label>
                 <input type="text" id="city" v-model="user.city" />
             </div>
+
             <div>
                 <p v-if="!createMode">
                     تاریخ عضویت:
@@ -42,6 +63,7 @@
                 <label for="password" v-if="createMode"> رمز عبور </label>
                 <input type="password" id="password" v-model="user.password" />
             </div>
+
             <div v-if="createMode">
                 <label for="rpassword" v-if="createMode">
                     تکرار رمز عبور
@@ -52,9 +74,14 @@
                     v-model="user.rpassword"
                 />
             </div>
+
             <div>
                 <label for="job">شغل</label>
                 <input type="text" id="job" v-model="user.job" />
+            </div>
+            <div>
+                <label for="job">موبایل</label>
+                <input type="text" id="job" v-model="user.mobile" />
             </div>
 
             <div>
@@ -164,8 +191,42 @@ export default {
 
             this.$modal.hide("user_edit_stage");
         },
+        async uploadAvatar(event) {
+            const avatar = event.target.files[0];
+            if (!avatar) return;
+            if (avatar.size > 2e5) {
+                this.$toasted.error("حجم آواتار حداکثر 200kb میتواند باشد");
+                return;
+            }
+            // create form data
+            const fd = new FormData();
+            // just add file instance to form data normally
+            fd.append("avatar", avatar);
+
+            await this.$axios
+                .post("/uploadAvatarImage", fd, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
+                .then(({ data }) => this.storeUserData({ avatar: data.url }))
+                .catch(() => {
+                    this.$toasted.error(
+                        "آپلود عکس با مشکل روبرو شده. لطفا دوباره امتحان کنید ..."
+                    );
+                    return false;
+                });
+            // clear input value to make selecting the same image work
+            event.target.value = "";
+        },
     },
     computed: {
+        avatar() {
+            const avatar = this.user.avatar;
+            if (!avatar) return false;
+            if (process.env.NODE_ENV === "production") return avatar;
+            return process.env.VUE_APP_DOMAIN + avatar;
+        },
         editStageRoles() {
             const roles = this.$store.state.userRoles;
             const rolesAsArray = [];
@@ -198,5 +259,29 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.profileAvatar {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: -10px;
+    img {
+        width: 90px;
+        height: 90px;
+        overflow: hidden;
+        border-radius: 90px;
+        border: 5px solid gainsboro;
+    }
+
+    .image_input {
+        position: absolute;
+        right: 15%;
+        bottom: 0px;
+        cursor: pointer;
+
+        .file-upload {
+            display: none;
+        }
+    }
+}
 </style>
