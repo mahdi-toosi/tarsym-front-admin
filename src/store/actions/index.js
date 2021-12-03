@@ -42,7 +42,7 @@ export default {
         const $skip = lastRequest.url === "/documents" ? state.docs.data.length : state.users.data.length;
         lastRequest.query.$skip = $skip;
 
-        dispatch("getRequest", lastRequest);
+        dispatch("getReq", lastRequest);
     },
     async getReq({ commit, dispatch }, req) {
         await axios

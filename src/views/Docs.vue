@@ -165,7 +165,10 @@ export default {
         },
         changeSituaion({ $event, _id, index }) {
             this.$axios
-                .patch(`/documents/${_id}`, { situation: $event })
+                .patch(`/documents/${_id}`, {
+                    situation: $event,
+                    changeSituation: true,
+                })
                 .then(() => {
                     this.$store.commit("CHANGE_FLAG", {
                         index,
